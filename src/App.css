@@ -14,3 +14,16 @@
   height: 100%;
   overflow: hidden;
 }
+
+.label > * {
+  /* width: max-content; */
+  padding: 1.5rem;
+  border-radius: 80% 10% 50% 20%;
+  white-space: nowrap;
+  color: white;
+  background-color: #00000088;
+
+  user-select: none;
+
+  overflow: hidden;
+}

@@ -1,7 +1,10 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
+import * as THREE from 'three';
 
 export default function CustomGeometry() {
-  const verticiesCount = 500 * 3;
+  const geometryRef = useRef();
+
+  const verticiesCount = 10 * 3;
 
   const positions = useMemo(() => {
     const positions = new Float32Array(verticiesCount * 3);
@@ -13,9 +16,13 @@ export default function CustomGeometry() {
     return positions;
   }, []);
 
+  useEffect(() => {
+    geometryRef.current.computeVertexNormals();
+  }, []);
+
   return (
     <mesh>
-      <bufferGeometry>
+      <bufferGeometry ref={geometryRef}>
         <bufferAttribute
           attach='attributes-position'
           itemSize={3}
@@ -23,7 +30,11 @@ export default function CustomGeometry() {
           array={positions}
         />
       </bufferGeometry>
-      <meshBasicMaterial color={'red'} wireframe />
+      <meshBasicMaterial
+        color={'red'}
+        wireframe={false}
+        side={THREE.DoubleSide}
+      />
     </mesh>
   );
 }
