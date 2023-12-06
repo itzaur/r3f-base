@@ -57,8 +57,9 @@
 //     </>
 //   );
 // }
-import { useRef } from 'react';
 import './App.css';
+import * as THREE from 'three';
+import { useRef } from 'react';
 import {
   OrbitControls,
   PivotControls,
@@ -67,13 +68,27 @@ import {
   Text,
   Float,
   MeshReflectorMaterial,
+  useHelper,
+  SoftShadows,
+  AccumulativeShadows,
+  RandomizedLight,
+  ContactShadows,
+  Sky,
+  Environment,
+  Lightformer,
+  Stage,
 } from '@react-three/drei';
 import { useControls, button } from 'leva';
 import { Perf } from 'r3f-perf';
+import { useFrame } from '@react-three/fiber';
 
 export default function Experience() {
   const cube = useRef();
   const sphere = useRef();
+  const directionalLight = useRef();
+  const ambientLight = useRef();
+
+  useHelper(directionalLight, THREE.DirectionalLightHelper, 1, 'red');
 
   const { perfVisivle } = useControls({
     perfVisivle: true,
@@ -81,7 +96,7 @@ export default function Experience() {
 
   const { position, color } = useControls('sphere', {
     position: {
-      value: { x: -2, y: 0 },
+      value: { x: -2, y: 1 },
       step: 0.01,
     },
     color: 'red',
@@ -102,30 +117,131 @@ export default function Experience() {
     },
   });
 
+  const { opacity, colorShadow, blur } = useControls('contactShadow', {
+    opacity: {
+      value: 1,
+      min: 0,
+      max: 1,
+      step: 0.01,
+    },
+    colorShadow: 'blue',
+    blur: {
+      value: 1,
+      min: 0,
+      max: 10,
+      step: 0.01,
+    },
+  });
+
+  const { sunPosition } = useControls('sky', {
+    sunPosition: { value: [1, 2, 3] },
+  });
+
+  const { envMapIntensity } = useControls({
+    envMapIntensity: {
+      value: 3.5,
+      min: 0,
+      max: 10,
+      step: 0.01,
+    },
+  });
+
+  useFrame((state, delta) => {
+    const angle = state.clock.elapsedTime;
+    cube.current.position.x = Math.sin(angle) + 2;
+    // cube.current.position.z = Math.cos(angle);
+  });
+
   return (
     <>
-      {perfVisivle && (
+      <color args={['ivory']} attach='background' />
+
+      {/* <Environment
+        background
+        preset='forest'
+        ground={{
+          height: 7,
+          scale: 100,
+          radius: 28,
+        }}
+        // files={[
+        //   './environmentMaps/0/px.jpg',
+        //   './environmentMaps/0/nx.jpg',
+        //   './environmentMaps/0/py.jpg',
+        //   './environmentMaps/0/ny.jpg',
+        //   './environmentMaps/0/pz.jpg',
+        //   './environmentMaps/0/nz.jpg',
+        // ]}
+      >
+        <color args={['#000000']} attach='background' />
+        {/* <Lightformer
+          position-z={-5}
+          scale={10}
+          color='red'
+          form='ring'
+          intensity={100}
+        /> */}
+      {/* <mesh position-z={-5} scale={10}>
+          <planeGeometry />
+          <meshBasicMaterial color={'red'} />
+        </mesh> }
+      </Environment> */}
+
+      {/* <SoftShadows samples={17} frustum={3.75} size={5} near={9.5} rings={11} /> */}
+      {/* <ContactShadows
+        position={[0, 0, 0]}
+        resolution={512}
+        scale={10}
+        far={10}
+        opacity={opacity}
+        color={colorShadow}
+        blur={blur}
+      /> */}
+
+      {/* <Sky sunPosition={sunPosition} /> */}
+
+      {/* {perfVisivle && (
         <Perf
           position='top-left'
           style={{ opacity: 0.8, backgroundColor: 'black' }}
         />
-      )}
+      )} */}
 
       <OrbitControls makeDefault />
 
-      <directionalLight position={[1, 2, 3]} intensity={1.5} />
-      <ambientLight intensity={0.5} />
+      {/* <AccumulativeShadows></AccumulativeShadows> */}
 
-      <mesh ref={cube} position={[2, 0, 0]} scale={cubeScale}>
+      {/* <directionalLight
+        castShadow
+        ref={directionalLight}
+        position={sunPosition}
+        intensity={1.5}
+        shadow-mapSize={[1024, 1024]}
+        shadow-camera-near={1}
+        shadow-camera-far={10}
+        shadow-camera-top={5}
+        shadow-camera-right={5}
+        shadow-camera-bottom={-5}
+        shadow-camera-left={-5}
+      />
+      <ambientLight ref={ambientLight} intensity={0.5} /> */}
+
+      {/* <mesh castShadow ref={cube} position={[2, 1, 0]} scale={cubeScale}>
         <boxGeometry />
-        <meshStandardMaterial color='mediumpurple' />
+        <meshStandardMaterial
+          color='mediumpurple'
+          envMapIntensity={envMapIntensity}
+        />
       </mesh>
       <TransformControls object={cube} />
 
       <PivotControls anchor={[0, 0, 0]} depthTest={false}>
-        <mesh ref={sphere} position={[position.x, position.y, 0]}>
+        <mesh castShadow ref={sphere} position={[position.x, position.y, 0]}>
           <sphereGeometry />
-          <meshStandardMaterial color={color} />
+          <meshStandardMaterial
+            color={color}
+            envMapIntensity={envMapIntensity}
+          />
           <Html
             wrapperClass='label'
             position={[1, 1, 0]}
@@ -136,31 +252,66 @@ export default function Experience() {
             That's a sphere
           </Html>
         </mesh>
-      </PivotControls>
+      </PivotControls> */}
 
-      <mesh position-y={-1} rotation-x={-Math.PI * 0.5} scale={10}>
+      {/* <mesh receiveShadow position-y={0} rotation-x={-Math.PI * 0.5} scale={10}>
         <planeGeometry />
-        {/* <meshStandardMaterial color='greenyellow' /> */}
-        <MeshReflectorMaterial
+        <meshStandardMaterial
+          color='greenyellow'
+          envMapIntensity={envMapIntensity}
+        />
+        {/* <MeshReflectorMaterial
           color='greenyellow'
           resolution={512}
           blur={[1000, 1000]}
           mixBlur={1}
           mirror={0.5}
-        />
-      </mesh>
+        />}
+      </mesh> */}
 
-      <Float speed={3} floatIntensity={3}>
-        <Text
-          font='./ZEKTON RG.OTF'
-          position={[0, 2, 0]}
-          maxWidth={5}
-          lineHeight={0.8}
-        >
-          Natalie is my crush
-          <meshNormalMaterial />
-        </Text>
-      </Float>
+      <Stage
+        shadows={{ type: 'contact', opacity: 0.3, blur: 3 }}
+        environment='sunset'
+        preset='portrait'
+        intensity={12}
+      >
+        <Float speed={3} floatIntensity={3}>
+          <Text
+            font='./ZEKTON RG.OTF'
+            position={[0, 3, 0]}
+            maxWidth={5}
+            lineHeight={0.8}
+          >
+            Natalie is my crush
+            <meshNormalMaterial side={2} />
+          </Text>
+        </Float>
+
+        <mesh castShadow ref={cube} position={[2, 1, 0]} scale={cubeScale}>
+          <boxGeometry />
+          <meshStandardMaterial
+            color='mediumpurple'
+            envMapIntensity={envMapIntensity}
+          />
+        </mesh>
+
+        <mesh castShadow ref={sphere} position={[position.x, position.y, 0]}>
+          <sphereGeometry />
+          <meshStandardMaterial
+            color={color}
+            envMapIntensity={envMapIntensity}
+          />
+          <Html
+            wrapperClass='label'
+            position={[1, 1, 0]}
+            center
+            distanceFactor={8}
+            occlude={[cube, sphere]}
+          >
+            That's a sphere
+          </Html>
+        </mesh>
+      </Stage>
     </>
   );
 }
