@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
 import Experience from './Experience.jsx';
+import Experience2 from './Experience2.jsx';
 
 // const created = ({ gl }) => {
 //   gl.setClearColor(0xffff00, 1);
@@ -25,9 +26,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       //   position: [2, 3, 6],
       // }}
       // onCreated={created}
-      shadows={false}
+      shadows={true}
     >
-      <Experience />
+      {/* <Experience /> */}
+      <Experience2 />
     </Canvas>
   </React.StrictMode>
 );

@@ -90,8 +90,8 @@ export default function Experience() {
 
   useHelper(directionalLight, THREE.DirectionalLightHelper, 1, 'red');
 
-  const { perfVisivle } = useControls({
-    perfVisivle: true,
+  const { perfVisible } = useControls({
+    perfVisible: true,
   });
 
   const { position, color } = useControls('sphere', {
@@ -200,7 +200,7 @@ export default function Experience() {
 
       {/* <Sky sunPosition={sunPosition} /> */}
 
-      {/* {perfVisivle && (
+      {/* {perfVisible && (
         <Perf
           position='top-left'
           style={{ opacity: 0.8, backgroundColor: 'black' }}
