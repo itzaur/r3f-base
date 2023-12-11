@@ -14,7 +14,7 @@ import Experience4 from './Experience4.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Canvas
-      // flat
+      flat
       // dpr={[1, 2]}
       // gl={{
       //   antialias: true,
