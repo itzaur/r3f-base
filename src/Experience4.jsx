@@ -12,8 +12,6 @@ import vertexShader from '../src/shaders/portal/vertex.glsl';
 import { extend, useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
 
-console.log(fragmentShader);
-
 const PortalMaterial = shaderMaterial({
   uTime: 0,
   uColorStart: new THREE.Color(0xffffff),
