@@ -7,6 +7,7 @@ import Experience2 from './Experience2.jsx';
 import Experience3 from './Experience3.jsx';
 import Experience4 from './Experience4.jsx';
 import Experience5 from './Experience5.jsx';
+import Experience6 from './Experience6.jsx';
 
 // const created = ({ gl }) => {
 //   gl.setClearColor(0xffff00, 1);
@@ -34,7 +35,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       {/* <Experience /> */}
       {/* <Experience3 /> */}
       {/* <Experience4 /> */}
-      <Experience5 />
+      {/* <Experience5 /> */}
+      <Experience6 />
     </Canvas>
   </React.StrictMode>
 );
