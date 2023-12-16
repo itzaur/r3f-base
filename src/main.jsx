@@ -8,6 +8,8 @@ import Experience3 from './Experience3.jsx';
 import Experience4 from './Experience4.jsx';
 import Experience5 from './Experience5.jsx';
 import Experience6 from './Experience6.jsx';
+import Experience7 from './Experience7.jsx';
+import Experience8 from './Experience8.jsx';
 
 // const created = ({ gl }) => {
 //   gl.setClearColor(0xffff00, 1);
@@ -31,12 +33,17 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       // }}
       // onCreated={created}
       shadows={true}
+      // camera={{
+      //   position: [0, 0, 2.9],
+      // }}
     >
       {/* <Experience /> */}
       {/* <Experience3 /> */}
       {/* <Experience4 /> */}
       {/* <Experience5 /> */}
-      <Experience6 />
+      {/* <Experience6 /> */}
+      {/* <Experience7 /> */}
+      <Experience8 />
     </Canvas>
   </React.StrictMode>
 );

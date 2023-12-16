@@ -1,3 +1,7 @@
+html {
+  font-size: 62.5%;
+}
+
 *,
 *::before,
 *::after {
@@ -26,4 +30,19 @@
   user-select: none;
 
   overflow: hidden;
+}
+
+canvas {
+  position: relative;
+  touch-action: none;
+}
+
+.html-screen iframe {
+  width: 102.4rem;
+  height: 67rem;
+
+  border: none;
+  border-radius: 2rem;
+
+  background-color: #0000;
 }
